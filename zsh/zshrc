@@ -46,6 +46,11 @@ bindkey '^[[B' down-line-or-beginning-search
 bindkey '^[[1;5C' forward-word      # ctrl+right
 bindkey '^[[1;5D' backward-word     # ctrl+left
 
+# kitty maps ctrl+v to paste, so quoted-insert lives here instead. Press it
+# then any key to print that key's raw escape sequence - that is how the two
+# bindkey lines above were derived.
+bindkey '^[v' quoted-insert
+
 # ---------- env ----------
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="${EDITOR:-vi}"
