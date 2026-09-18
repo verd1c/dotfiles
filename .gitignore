@@ -1,0 +1,12 @@
+# kitty writes these next to its config; they are machine state, not settings
+kitty/*.bak
+kitty/*.precollisionfix
+kitty/kitty-dump.txt
+
+# never let credentials in here
+*.pem
+*.key
+id_*
+!id_*.pub
+hosts.yml
+.env
