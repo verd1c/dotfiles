@@ -1,0 +1,54 @@
+# zsh — oh-my-zsh, kept deliberately small so startup stays under ~100ms.
+# Check it with: for i in $(seq 5); do time zsh -i -c exit; done
+
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="robbyrussell"
+
+# Every plugin here is code sourced at startup, so this list is a latency
+# budget, not a wishlist. These three pay for themselves:
+#   git                    - branch in the prompt, plus gst/gco/glog aliases
+#   zsh-autosuggestions    - greys in the rest of the line from history
+#   zsh-syntax-highlighting- red command name = typo, before you hit enter
+# syntax-highlighting must stay LAST; it wraps the line editor and anything
+# loaded after it silently loses highlighting.
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+source "$ZSH/oh-my-zsh.sh"
+
+# ---------- history ----------
+# Big, shared across every kitty split, deduped. INC_APPEND_SHARE means a
+# command is visible in your other panes immediately, not at shell exit.
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt SHARE_HISTORY INC_APPEND_HISTORY EXTENDED_HISTORY
+setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS
+setopt HIST_VERIFY          # expand !! and let you see it before running
+
+# ---------- navigation ----------
+setopt AUTO_CD              # `src` instead of `cd src`
+setopt AUTO_PUSHD PUSHD_IGNORE_DUPS
+setopt EXTENDED_GLOB        # ^ ~ # in globs; needed for **/*~*test*
+
+# ---------- completion ----------
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'   # case-insensitive
+zstyle ':completion:*' menu select                        # arrow-key menu
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# ---------- keys ----------
+# Up/Down search history by what's already typed, rather than walking it all.
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[[1;5C' forward-word      # ctrl+right
+bindkey '^[[1;5D' backward-word     # ctrl+left
+
+# ---------- env ----------
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="${EDITOR:-vi}"
+
+# Machine-specific bits that should NOT be committed (tokens, per-box paths).
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
