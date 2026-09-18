@@ -51,9 +51,8 @@ clone https://github.com/zsh-users/zsh-autosuggestions.git \
 clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
       "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
-link kitty       "$CONFIG/kitty"
-link bash/bashrc "$HOME/.bashrc"
-link zsh/zshrc   "$HOME/.zshrc"
+link kitty     "$CONFIG/kitty"
+link zsh/zshrc "$HOME/.zshrc"
 
 echo
 echo "Done. Restart kitty (or ctrl+shift+f5 to reload its config)."
