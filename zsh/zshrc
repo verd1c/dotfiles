@@ -51,6 +51,35 @@ bindkey '^[[1;5D' backward-word     # ctrl+left
 # bindkey lines above were derived.
 bindkey '^[v' quoted-insert
 
+# ---------- modern cli tools ----------
+# Every block is guarded: this file is symlinked onto machines that may not
+# have these installed yet, and an unguarded eval would break the shell.
+
+# Ubuntu renames both of these to dodge clashes with older packages.
+command -v fdfind >/dev/null && alias fd='fdfind'
+command -v batcat >/dev/null && alias bat='batcat'
+
+if command -v eza >/dev/null; then
+    alias ls='eza --group-directories-first'
+    alias ll='eza -l --git --group-directories-first'
+    alias la='eza -la --git --group-directories-first'
+    alias lt='eza --tree --level=2'
+fi
+
+# fzf: ctrl+r fuzzy-searches history (the big one, given HISTSIZE=100000),
+# ctrl+t inserts a file path, alt+c cds into a directory.
+if command -v fzf >/dev/null; then
+    source <(fzf --zsh)
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
+    # Search hidden files but never walk into .git - it is all noise.
+    command -v fdfind >/dev/null && \
+        export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --exclude .git'
+fi
+
+# zoxide: `z nyx` from anywhere. Ranks by how often and how recently you
+# actually visit a directory. Must come after oh-my-zsh, which runs compinit.
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+
 # ---------- env ----------
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="${EDITOR:-vi}"

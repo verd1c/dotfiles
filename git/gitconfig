@@ -1,0 +1,53 @@
+# Identity uses the GitHub noreply address on purpose: it keeps a real email
+# out of the history of every public repo.
+[user]
+	name = verd1c
+	email = 38715146+verd1c@users.noreply.github.com
+
+[init]
+	defaultBranch = main
+
+[core]
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true          # n / N to jump between files in a diff
+	line-numbers = true
+	hyperlinks = true
+	syntax-theme = ansi      # inherit the terminal's Ayu colours
+
+[diff]
+	# histogram reads far better than the default on reordered or moved code
+	algorithm = histogram
+	colorMoved = default
+	mnemonicPrefix = true
+
+[merge]
+	# zdiff3 shows the common ancestor in a conflict, not just both sides,
+	# which usually makes it obvious which change to keep.
+	conflictStyle = zdiff3
+
+[push]
+	autoSetupRemote = true   # no more "set upstream" dance on a new branch
+	followTags = true
+
+[pull]
+	ff = only
+
+[rerere]
+	enabled = true           # remember conflict resolutions and replay them
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate    # most recent branches first in `git branch`
+
+[alias]
+	s = status --short --branch
+	lg = log --oneline --graph --decorate -20
+	last = show --stat HEAD
+	unstage = restore --staged
