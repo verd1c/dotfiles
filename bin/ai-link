@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Give the repo you are standing in one instruction file that every agent
+# reads. AGENTS.md is the real file (Codex and omp read it); CLAUDE.md
+# becomes a symlink to it so Claude Code sees the same text.
+set -euo pipefail
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+    echo "not inside a git repository" >&2
+    exit 1
+}
+cd "$root"
+
+if [ ! -e AGENTS.md ]; then
+    printf '# %s\n\nInstructions for coding agents working in this repo.\n' \
+        "$(basename "$root")" > AGENTS.md
+    echo "created  AGENTS.md"
+fi
+
+if [ -L CLAUDE.md ]; then
+    echo "ok       CLAUDE.md"
+elif [ -e CLAUDE.md ]; then
+    echo "CLAUDE.md already exists as a real file - merge it into AGENTS.md" >&2
+    exit 1
+else
+    ln -s AGENTS.md CLAUDE.md
+    echo "link     CLAUDE.md -> AGENTS.md"
+fi
+
+echo "Commit both; git stores the symlink."

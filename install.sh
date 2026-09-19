@@ -62,6 +62,16 @@ link ai/AGENTS.md "$HOME/.codex/AGENTS.md"    # Codex global instructions
 link ai/AGENTS.md "$HOME/.omp/AGENTS.md"      # omp
 link ai/AGENTS.md "$HOME/.omp/rules/shared.md"
 
+# Tool settings. Only the files that are hand-edited preferences: codex's
+# config.toml is left alone because it holds nothing but machine state
+# (per-path trust levels, TUI counters) that codex rewrites itself.
+# If a tool ever replaces one of these symlinks with a real file - some
+# write config by temp-file-and-rename - just re-run this script.
+link ai/claude-settings.json "$HOME/.claude/settings.json"
+link ai/omp-config.yml       "$HOME/.omp/agent/config.yml"
+
+link bin/ai-link "$HOME/.local/bin/ai-link"
+
 echo
 echo "Done. Restart kitty (or ctrl+shift+f5 to reload its config)."
 command -v zsh >/dev/null || echo "NOTE: zsh isn't installed yet: sudo apt install zsh"

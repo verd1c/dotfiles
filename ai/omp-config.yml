@@ -1,0 +1,9 @@
+modelRoles:
+  default: deepseek/deepseek-v4-flash
+symbolPreset: nerd
+composer:
+  shape: band
+theme:
+  dark: titanium
+  light: light
+setupVersion: 2
