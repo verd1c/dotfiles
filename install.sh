@@ -55,6 +55,13 @@ link kitty        "$CONFIG/kitty"
 link zsh/zshrc    "$HOME/.zshrc"
 link git/gitconfig "$HOME/.gitconfig"
 
+# One working agreement, read by every agent. Each tool looks for its own
+# filename, so the same file is linked under each of them.
+link ai/AGENTS.md "$HOME/.claude/CLAUDE.md"   # Claude Code global memory
+link ai/AGENTS.md "$HOME/.codex/AGENTS.md"    # Codex global instructions
+link ai/AGENTS.md "$HOME/.omp/AGENTS.md"      # omp
+link ai/AGENTS.md "$HOME/.omp/rules/shared.md"
+
 echo
 echo "Done. Restart kitty (or ctrl+shift+f5 to reload its config)."
 command -v zsh >/dev/null || echo "NOTE: zsh isn't installed yet: sudo apt install zsh"
